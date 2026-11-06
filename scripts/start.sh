@@ -38,13 +38,14 @@ if [ ! -x "$program" ]; then
   trap '/bin/rm -f "$lock"' EXIT
 
   if [ ! -x "$program" ]; then
-    download="$data/$version.download"
+    download="$data/download"
     package="$download/package.mcpb"
     checks_out() { [ -f "$package" ] && [ "$(/usr/bin/shasum -a 256 "$package" | /usr/bin/cut -d ' ' -f 1)" = "$sha256" ]; }
 
     if ! checks_out; then
       say "downloading midiflow $version from midiflow.pro"
-      # An interrupted download continues where it stopped: Claude gives a server 30 seconds to start.
+      # An interrupted download continues where it stopped: Claude gives a server 30 seconds to start. A piece left by
+      # another version fails the checksum below and goes.
       status=0
       /bin/mkdir -p "$download"
       (cd "$download" && exec /usr/bin/curl --fail --location --silent --show-error --proto '=https' --proto-redir '=https' \

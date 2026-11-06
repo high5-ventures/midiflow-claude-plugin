@@ -3,7 +3,7 @@
     "midiflow": {
       "command": "sh",
       "args": [
-        "${CLAUDE_PLUGIN_ROOT}/scripts/start",
+        "${CLAUDE_PLUGIN_ROOT}/scripts/start.sh",
         "--plugin-dir",
         "${user_config.extra_plugin_dirs}",
         "--input-dir",

@@ -39,7 +39,7 @@ midiflow is proprietary software by high5 ventures GmbH. VST is a registered tra
 No account or sign-up is needed. These prompts also work on a Mac without any plug-ins, with midiflow's built-in sounds.
 
 ## What this plugin runs and downloads
-This plugin holds no program files. It holds this README, the licence, its settings, an icon and one short shell script that you can read: `scripts/start`. Claude runs that script to start midiflow.
+This plugin holds no program files. It holds this README, the licence, its settings, an icon and one short shell script that you can read: `scripts/start.sh`. Claude runs that script to start midiflow.
 
 - **First start:** the script downloads the midiflow package of exactly this plugin version, about 23 MB, from https://www.midiflow.pro/download/midiflow-1.0.0.mcpb. It checks the file against the SHA-256 written in the script and does not use it if the checksum differs.
 - **Where it goes:** the script unpacks the package into the plugin's data folder, which Claude Code keeps under `~/.claude/plugins/data/` and removes when you uninstall the plugin.
