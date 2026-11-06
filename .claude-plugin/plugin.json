@@ -1,0 +1,84 @@
+{
+  "name": "midiflow",
+  "displayName": "midiflow",
+  "version": "1.0.0",
+  "description": "Turn MIDI into audio with the instruments and effects on your Mac, right from the chat.",
+  "author": {
+    "name": "high5 ventures GmbH",
+    "email": "support@midiflow.pro",
+    "url": "https://www.midiflow.pro"
+  },
+  "homepage": "https://www.midiflow.pro",
+  "license": "LicenseRef-midiflow",
+  "keywords": [
+    "midi",
+    "audio",
+    "render",
+    "plug-in",
+    "synthesizer",
+    "audio unit"
+  ],
+  "icon": "./icon.png",
+  "documentationUrl": "https://www.midiflow.pro/en/start.html",
+  "supportUrl": "https://www.midiflow.pro/en/imprint.html",
+  "privacyPolicyUrl": "https://www.midiflow.pro/en/privacy.html",
+  "termsOfServiceUrl": "https://www.midiflow.pro/en/terms.html",
+  "userConfig": {
+    "output_dir": {
+      "type": "directory",
+      "title": "midiflow folder",
+      "description": "Where midiflow keeps what you export and your sample libraries, in its folders Projects and Instruments (default ~/Music/midiflow).",
+      "required": false,
+      "default": ""
+    },
+    "extra_plugin_dirs": {
+      "type": "directory",
+      "title": "Extra plug-in folder",
+      "description": "An additional folder with VST3 plug-ins.",
+      "required": false,
+      "default": ""
+    },
+    "allowed_input_dirs": {
+      "type": "directory",
+      "title": "Allowed input folder",
+      "description": "A folder midiflow may read MIDI files and presets from, besides your project folders.",
+      "required": false,
+      "default": ""
+    },
+    "instrument_dirs": {
+      "type": "directory",
+      "title": "Instrument folder",
+      "description": "A folder with sample libraries for the midiflow Sampler (SFZ, SoundFont, DecentSampler), besides the Instruments folder in your midiflow folder.",
+      "required": false,
+      "default": ""
+    },
+    "preferred_format": {
+      "type": "string",
+      "title": "Preferred plug-in format",
+      "description": "vst3 or au: used when a plug-in is installed in both formats (default vst3).",
+      "required": false,
+      "default": ""
+    },
+    "max_parallel_renders": {
+      "type": "string",
+      "title": "Parallel renders",
+      "description": "How many renders may run at the same time, 1 to 4 (default 1).",
+      "required": false,
+      "default": ""
+    },
+    "note_name_convention": {
+      "type": "string",
+      "title": "Note name display",
+      "description": "C4=60 or C3=60, display only; input always uses C4 = 60.",
+      "required": false,
+      "default": ""
+    },
+    "overload_mode": {
+      "type": "string",
+      "title": "When a sound is too loud",
+      "description": "lower (default): midiflow turns the whole recording down just enough that nothing clips, and tells you by how much. float: the file keeps the original level as a 32-bit float WAV for your DAW; players that cannot play float files will clip it.",
+      "required": false,
+      "default": ""
+    }
+  }
+}

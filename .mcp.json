@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "midiflow": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/start",
+      "args": [
+        "--plugin-dir",
+        "${user_config.extra_plugin_dirs}",
+        "--input-dir",
+        "${user_config.allowed_input_dirs}",
+        "--instrument-dir",
+        "${user_config.instrument_dirs}"
+      ],
+      "env": {
+        "MIDIFLOW_CFG_OUTPUT_DIR": "${user_config.output_dir}",
+        "MIDIFLOW_CFG_PREFERRED_FORMAT": "${user_config.preferred_format}",
+        "MIDIFLOW_CFG_MAX_PARALLEL_RENDERS": "${user_config.max_parallel_renders}",
+        "MIDIFLOW_CFG_NOTE_NAME_CONVENTION": "${user_config.note_name_convention}",
+        "MIDIFLOW_CFG_OVERLOAD_MODE": "${user_config.overload_mode}",
+        "MIDIFLOW_INSTALL_CHANNEL": "plugin"
+      }
+    }
+  }
+}
