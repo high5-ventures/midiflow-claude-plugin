@@ -10,7 +10,6 @@
 set -eu
 
 sha256='8967e1ba9a4a2a8254b016865c0c80886d928b096ab5f26295869fe73679f72a'
-url='https://www.midiflow.pro/download/midiflow-1.0.0.mcpb'
 
 # The settings arrive under the names the directory accepts; the server reads its own.
 export MIDIFLOW_CFG_OUTPUT_DIR="${CLAUDE_PLUGIN_OPTION_OUTPUT_DIR:-}"
@@ -46,7 +45,7 @@ if [ ! -x "$program" ]; then
       status=0
       /bin/mkdir -p "$data/download"
       (cd "$data/download" && exec /usr/bin/curl --fail --location --silent --show-error --proto '=https' --proto-redir '=https' \
-        --tlsv1.2 --connect-timeout 15 --continue-at - --output package.mcpb "$url") >&2 || status=$?
+        --tlsv1.2 --connect-timeout 15 --continue-at - --output package.mcpb 'https://www.midiflow.pro/download/midiflow-1.0.0.mcpb') >&2 || status=$?
       # The server refused this file or the resume: start over next time.
       case "$status" in 22 | 33) /bin/rm -f "$data/download/package.mcpb" ;; esac
       [ "$status" -eq 0 ] || die "the download stopped (exit code $status). Start Claude again to continue. Details: https://www.midiflow.pro/en/start.html"

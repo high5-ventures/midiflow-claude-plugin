@@ -9,6 +9,7 @@
     "url": "https://www.midiflow.pro"
   },
   "homepage": "https://www.midiflow.pro",
+  "repository": "https://github.com/high5-ventures/midiflow-claude-plugin",
   "license": "LicenseRef-midiflow",
   "keywords": [
     "midi",
