@@ -52,7 +52,7 @@ if [ ! -x "$program" ]; then
         --tlsv1.2 --connect-timeout 15 --continue-at - --output package.mcpb "$url") >&2 || status=$?
       # The server refused this file or the resume: start over next time.
       case "$status" in 22 | 33) /bin/rm -f "$package" ;; esac
-      [ "$status" -eq 0 ] || die "the download stopped (curl exit $status). Start Claude again to continue. Details: https://www.midiflow.pro/en/start.html"
+      [ "$status" -eq 0 ] || die "the download stopped (exit code $status). Start Claude again to continue. Details: https://www.midiflow.pro/en/start.html"
       if ! checks_out; then
         /bin/rm -f "$package"
         die "the download does not match the checksum of midiflow $version, so it was not used."
