@@ -13,6 +13,14 @@ version='1.0.0'
 sha256='8967e1ba9a4a2a8254b016865c0c80886d928b096ab5f26295869fe73679f72a'
 url='https://www.midiflow.pro/download/midiflow-1.0.0.mcpb'
 
+# The settings arrive under the names the directory accepts; the server reads its own.
+export MIDIFLOW_CFG_OUTPUT_DIR="${CLAUDE_PLUGIN_OPTION_OUTPUT_DIR:-}"
+export MIDIFLOW_CFG_PREFERRED_FORMAT="${CLAUDE_PLUGIN_OPTION_PREFERRED_FORMAT:-}"
+export MIDIFLOW_CFG_MAX_PARALLEL_RENDERS="${CLAUDE_PLUGIN_OPTION_MAX_PARALLEL_RENDERS:-}"
+export MIDIFLOW_CFG_NOTE_NAME_CONVENTION="${CLAUDE_PLUGIN_OPTION_NOTE_NAME_CONVENTION:-}"
+export MIDIFLOW_CFG_OVERLOAD_MODE="${CLAUDE_PLUGIN_OPTION_OVERLOAD_MODE:-}"
+export MIDIFLOW_INSTALL_CHANNEL='plugin'
+
 say() { printf 'midiflow: %s\n' "$*" >&2; }
 die() { say "$*"; exit 1; }
 
@@ -30,15 +38,17 @@ if [ ! -x "$program" ]; then
   trap '/bin/rm -f "$lock"' EXIT
 
   if [ ! -x "$program" ]; then
-    package="$data/midiflow-$version.mcpb"
+    download="$data/$version.download"
+    package="$download/package.mcpb"
     checks_out() { [ -f "$package" ] && [ "$(/usr/bin/shasum -a 256 "$package" | /usr/bin/cut -d ' ' -f 1)" = "$sha256" ]; }
 
     if ! checks_out; then
       say "downloading midiflow $version from midiflow.pro"
       # An interrupted download continues where it stopped: Claude gives a server 30 seconds to start.
       status=0
-      /usr/bin/curl --fail --location --silent --show-error --proto '=https' --proto-redir '=https' --tlsv1.2 \
-        --connect-timeout 15 --continue-at - --output "$package" "$url" >&2 || status=$?
+      /bin/mkdir -p "$download"
+      (cd "$download" && exec /usr/bin/curl --fail --location --silent --show-error --proto '=https' --proto-redir '=https' \
+        --tlsv1.2 --connect-timeout 15 --continue-at - --output package.mcpb "$url") >&2 || status=$?
       # The server refused this file or the resume: start over next time.
       case "$status" in 22 | 33) /bin/rm -f "$package" ;; esac
       [ "$status" -eq 0 ] || die "the download stopped (curl exit $status). Start Claude again to continue. Details: https://www.midiflow.pro/en/start.html"
@@ -56,9 +66,8 @@ if [ ! -x "$program" ]; then
     [ -x "$unpack/bin/midiflow" ] || die "the midiflow $version package holds no server."
     /bin/rm -rf "${data:?}/$version"
     /bin/mv "$unpack" "$data/$version"
-    /bin/rm -f "$package"
 
-    # Earlier versions go, unless a Claude window is still running one.
+    # The download and earlier versions go, unless a Claude window is still running one.
     for old in "$data"/*/; do
       old="${old%/}"
       if [ "$old" != "$data/$version" ] && ! /usr/bin/pgrep -f "$old/bin/midiflow" >/dev/null 2>&1; then
